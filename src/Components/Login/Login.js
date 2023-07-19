@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {
   createUserWithEmailAndPassword,
   signOut,
@@ -9,6 +9,9 @@ import { UserContext } from '../Contexts/UserContext'
 import { auth } from '../../firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../firebase'
+import Wrapper from './LoginWrapper'
+import FormRow from '../FormRow'
+import { useNavigate } from 'react-router-dom'
 function Login() {
   const { loggedIn, setLoggedIn } = useContext(LoginContext)
   const { userDetail, setUserDetail } = useContext(UserContext)
@@ -16,6 +19,12 @@ function Login() {
     { email: 'kmatagne@gmail.com', pwd: 'kaelkael1' },
   ])
   const [showCreateAccount, setShowCreateAccount] = useState(false)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (loggedIn === true) {
+      navigate('/menu')
+    }
+  }, [loggedIn])
 
   const accountLogOut = (e) => {
     e.preventDefault()
@@ -39,13 +48,6 @@ function Login() {
     console.log(userDetail)
   }
 
-  const handleLoginInput = (e, ind) => {
-    const value = e.target.value
-    var log = [...login]
-    log[0][ind] = value
-    setLogin(log)
-  }
-
   //AddUserToDatabase
   const documentRef = collection(db, 'Users')
 
@@ -67,120 +69,68 @@ function Login() {
       addUserToDb()
     })
   }
+
+  const handleValueChange = (e) => {
+    let temp = login[0]
+    temp[e.target.name] = e.target.value
+    console.log(temp)
+    let res = []
+    res[0] = temp
+    setLogin(res)
+  }
+  useEffect(() => {
+    console.log(login)
+  }, [login])
+
   return (
     <>
-      <>
-        <button
-          onClick={() => {
-            console.log(userDetail[0].email)
-          }}
-        >
-          User
-        </button>
-      </>
       {!showCreateAccount && (
         <>
-          <section className='login-page'>
-            <div className='login-form'>
-              <form
-                onSubmit={(e) => {
-                  console.log('hello')
-                }}
-              >
-                <div className='login'>
-                  <div>Login to your account:</div>
+          <Wrapper>
+            <form
+              className='form'
+              onSubmit={(e) => {
+                console.log('hello')
+              }}
+            >
+              <div>Login to your account:</div>
 
-                  <label htmlFor='email'>E-mail:</label>
-                  <input
-                    type='text'
-                    value={login[0].email}
-                    onChange={(e) => {
-                      handleLoginInput(e, 'email')
-                    }}
-                  />
-                </div>
-                <div className='login'>
-                  <label htmlFor='pwd'>Password:</label>
-                  <input
-                    type='password'
-                    value={login[0].pwd}
-                    onChange={(e) => {
-                      handleLoginInput(e, 'pwd')
-                    }}
-                  />
-                </div>
-                <div className='login-btn-container'>
-                  <button
-                    className='btn'
-                    type='submit'
-                    onClick={(e) => {
-                      accountLogIn(e)
-                    }}
-                  >
-                    Log In
-                  </button>
-                  <button
-                    className='btn'
-                    type='button'
-                    onClick={(e) => {
-                      setShowCreateAccount(!showCreateAccount)
-                    }}
-                  >
-                    Sign up
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </>
-      )}
-      {showCreateAccount && (
-        <>
-          <section className='login-page'>
-            <div className='login-form'>
-              <form
-                onSubmit={(e) => {
-                  accountCreation(e)
-                }}
-              >
-                <div className='login'>
-                  <div>Create your account:</div>
-
-                  <label htmlFor='email'>E-mail:</label>
-                  <input
-                    type='text'
-                    value={login[0].email}
-                    onChange={(e) => {
-                      handleLoginInput(e, 'email')
-                    }}
-                  />
-                </div>
-                <div className='login'>
-                  <label htmlFor='pwd'>Password:</label>
-                  <input
-                    type='text'
-                    value={login[0].pwd}
-                    onChange={(e) => {
-                      handleLoginInput(e, 'pwd')
-                    }}
-                  />
-                </div>
-                <div className='login-btn-container'>
-                  <button className='btn' type='submit'>
-                    Create
-                  </button>
-                  <button
-                    className='btn'
-                    onClick={() => {
-                      setShowCreateAccount(!showCreateAccount)
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
+              <FormRow
+                type='text'
+                value={login.email}
+                handleChange={handleValueChange}
+                labelText='E-mail'
+                name='email'
+              />
+              <FormRow
+                type='password'
+                value={login.pwd}
+                handleChange={handleValueChange}
+                labelText='Password'
+                name='pwd'
+              />
+              <div className='login-btn-container'>
+                <button
+                  className='btn'
+                  type='submit'
+                  onClick={(e) => {
+                    accountLogIn(e)
+                  }}
+                >
+                  Log In
+                </button>
+                <button
+                  className='btn'
+                  type='button'
+                  onClick={(e) => {
+                    setShowCreateAccount(!showCreateAccount)
+                  }}
+                >
+                  Sign up
+                </button>
+              </div>
+            </form>
+          </Wrapper>
         </>
       )}
     </>

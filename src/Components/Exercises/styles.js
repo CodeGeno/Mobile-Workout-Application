@@ -22,19 +22,33 @@ export const SFlexContainer = styled.div`
 `
 export const SExercicesResultContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  width: 100%;
   flex-wrap: wrap;
-  flex-basis: 33%;
   ${mediaQueries('lg')`
-  flex-basis:100%;
+  justify-content:center;`}
+  ${mediaQueries('md')`
+  justify-content:center;
+  `}
+  ${mediaQueries('sm')`
   `}
 `
 
 export const SAllInputs = styled.div`
-  display: flex;
-  flex-direction: column;
   margin: 20px 0 20px 0;
+  display: flex;
+  flex-direction: row;
+  flex-basis: 33%;
+
+  ${mediaQueries('lg')`
+  flex-basis:25%;
+  `}
+  ${mediaQueries('md')`
+  flex-basis:50%;
+  `}
+  ${mediaQueries('sm')`
+  flex-basis:100%;
+  `}
 `
 
 export const SSingleInput = styled.div`
@@ -42,10 +56,16 @@ export const SSingleInput = styled.div`
 `
 
 export const SExerciseInput = styled.input`
+  display: flex;
+  justify-content: center;
+  text-align: center;
   width: 75px;
   height: 25px;
   border-radius: 5px;
   border-width: 1px;
+  ${mediaQueries('sm')`
+  width:25px;
+  `}
 `
 
 export const SExerciseInputContainer = styled.div`
@@ -82,6 +102,7 @@ export const SButton = styled.button`
   cursor: pointer;
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: 'Haas Grot Text R Web', 'Helvetica Neue', Helvetica, Arial,
     sans-serif;
   height: 30px;
@@ -97,6 +118,7 @@ export const SButton = styled.button`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  width: 80px;
 `
 export const SSelect = styled.select`
   border-radius: 5px;
@@ -112,4 +134,47 @@ export const SWorkoutSelect = styled.div`
   font-size: 1.6rem;
   margin-top: 20px;
   margin-bottom: 20px;
+`
+export const SLoading = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 2em;
+  font-weight: 600;
+`
+
+export const SFormularButton = styled.button`
+  background-color: #ea4c89;
+  border-radius: 5px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-family: 'Haas Grot Text R Web', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  height: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  list-style: none;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin: 20px;
+  padding: 20px;
+`
+export const SSelectContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 `
