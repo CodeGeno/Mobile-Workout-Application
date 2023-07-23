@@ -47,13 +47,12 @@ export const CreateWorkout = () => {
             type='text'
             onChange={(e) => {
               setNewWorkoutTitle([{ workout: e.target.value }])
-              console.log(newWorkoutTitle)
             }}
           />
         </div>
 
         <div>
-          {newExercise.map((Exercise, ind) => (
+          {newExercise?.map((Exercise, ind) => (
             <div className='single-ex' key={ind}>
               <div>
                 <label className='form-label' htmlFor='Workout name'>
@@ -65,7 +64,6 @@ export const CreateWorkout = () => {
                   type='text'
                   onChange={(e) => {
                     handleExercisesInputs(e, ind, 'exercise')
-                    console.log(newExercise)
                   }}
                 />
               </div>
